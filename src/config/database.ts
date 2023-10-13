@@ -1,18 +1,13 @@
-import dotenv from 'dotenv';
+const mongoose = require('mongoose');
 
-dotenv.config();
-
-//const MONGO_USERNAME = process.env.MONGO_USERNAME || '';
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'mongodb+srv://admin:${MONGO_PASSWORD}@cluster0.tbilkcx.mongodb.net/';
-const MONGO_URL = '';
-
-const SERVER_PORT = process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : 1337;
-
-export const config = {
-    mongo: {
-        url: MONGO_URL
-    },
-    server: {
-        port: SERVER_PORT
+const connectDB = async (mongo_uri: string) => {
+    try {
+        const conn = await mongoose.connect(mongo_uri);
+        console.log(`MongoDB Connected: ${conn.connection.host}`.yellow.bold);
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
     }
 };
+
+export default connectDB;
